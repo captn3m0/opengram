@@ -17,7 +17,10 @@ defmodule Opengram.Mixfile do
     [applications: [:nadia]]
   end
 
-  def deps do
-    [{:nadia, "~> 0.4"}]
+  defp deps do
+    [
+      {:nadia, "~> 0.4"}
+    ]
   end
+
 end
