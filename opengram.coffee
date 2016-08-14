@@ -1,5 +1,6 @@
 TelegramLogin = require './login'
 config = require './config'
+fs = require 'fs'
 
 class Opengram
   clientReady: (c)=>
@@ -13,14 +14,17 @@ class Opengram
     console.log 'logged in'
 
   onError: (err)->
-    console.log err
+    console.error err
 
   sentCode: (client)=>
-    setInterval ()->
-      code = fs.readFileSync 'code.txt'
+    console.log 'sent code called, reading code.txt'
 
   submitCode: (code)=>
     @login.signIn(code)
+
+  signedIn: (userInfo)->
+    console.log 'user logged in'
+    console.log userInfo
 
   constructor: ->
     @login = new TelegramLogin()
@@ -29,6 +33,7 @@ class Opengram
     @login.once 'sentCode', @sentCode
     @login.on 'error', @onError
     @login.on 'userReady', @onUserReady
+    @login.on 'signedIn', @signedIn
 
   init: ()=>
     @login.initClient()
@@ -37,5 +42,8 @@ og = new Opengram()
 og.init()
 
 setInterval ()->
-  console.log 'waiting'
+  fs.exists './code.txt', (exists)->
+    if exists
+      console.log 'submitting code'
+      og.submitCode('90077')
 ,5000

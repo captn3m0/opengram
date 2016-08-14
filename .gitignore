@@ -20,3 +20,4 @@ node_modules
 auth
 config.*
 index.js
+user-info.json

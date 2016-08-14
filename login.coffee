@@ -58,6 +58,7 @@ module.exports =
         version: config.version
         lang: 'en'
         authKey: authKey
+        connectionType: 'HTTP'
       }
         config.dc.prod)
 
@@ -72,6 +73,7 @@ module.exports =
         hash: config.api_hash
         version: config.version
         lang: 'en'
+        connectionType: 'HTTP'
       }
         config.dc.prod)
 
@@ -84,36 +86,39 @@ module.exports =
       @emit('clientReady', @client)
 
     checkPhoneAndSendCode: (telNum) =>
-      console.log 'sending phone thing'
+      console.log 'sending phone check request'
       @userInfo.telNum = telNum
       @client.auth.checkPhone(telNum, @afterCheckPhone)
 
     afterCheckPhone: (res) =>
       console.log 'phone checked'
 
-      console.log res
-
       if res.error_code?
-        console.log 'emittign error on phone check'
-        @emit('error', res)
+        @client.getDataCenters (dcs)->
+          console.log dcs
       else
         console.log 'sending code after checking phone'
         @sendCode()
 
     sendCode: =>
       console.log 'sending code'
-      @client.auth.sendCode '+919639516176', 5, 'EN', @sentCode
+      @client.auth.sendCode '+919639516176', 5, 'en', @sentCode
 
     sentCode: (res) =>
       console.log 'CODE SENT'
       if res.error_code?
         @emit('error', res)
       else
+        console.log "We got a response"
+        console.log res.phone_code_hash
+        console.log res
         @userInfo.phone_code_hash = res.phone_code_hash
         @emit('sentCode')
 
     signIn: (code) =>
       @userInfo.code = code
+
+      console.log @userInfo
       @client.auth.signIn(
         @userInfo.telNum
         @userInfo.phone_code_hash
