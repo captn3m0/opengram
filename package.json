@@ -1,0 +1,26 @@
+{
+  "name": "opengram",
+  "version": "1.0.0",
+  "description": "Copied from <https://github.com/captn3m0/ideas#telegram-to-rss>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/captn3m0/opengram.git"
+  },
+  "keywords": [
+    "opengram",
+    "telegram"
+  ],
+  "author": "Nemo <me@captnemo.in>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/captn3m0/opengram/issues"
+  },
+  "homepage": "https://github.com/captn3m0/opengram#readme",
+  "dependencies": {
+    "telegram.link": "^0.6.4"
+  }
+}
